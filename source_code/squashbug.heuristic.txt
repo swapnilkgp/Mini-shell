@@ -1,0 +1,13 @@
+A malware process spawns multiple child processes and remains in an idle state
+
+Heuristic:
+As a heuristic, the cpu utilization of all children processes (including their children and so on) is recursively computed and added.
+If the value exceeds a given threshold and the callee process is identified to be in sleeping state ("S"), then it is identified as the malware process.
+
+CPU utilization and child information is computed from
+/proc/[pid]/stat and
+/proc/[pid]/task/[tid]/children respectively
+
+CPU utilization for a given process is calculated as:
+(utime+stime)/(uptime - process_start_time)
+
